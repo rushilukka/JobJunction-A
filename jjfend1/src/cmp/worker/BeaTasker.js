@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Link,useNavigate } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
+
+
 const BeaTasker = () => {
   const [isSignup, setIsSignup] = useState(false);
   const navigate = useNavigate();
@@ -12,8 +14,9 @@ const BeaTasker = () => {
     email: '',
     password: '',
     phone: '',
-    area:'',
-    task:''
+    area: '',
+    worktype: '',
+    city: 'Rajkot'
   })
   const toggleForm = () => {
     setIsSignup(!isSignup);
@@ -26,8 +29,8 @@ const BeaTasker = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
   
-    // Form validation checks
-    if (isSignup) {
+     // Form validation checks
+     if (isSignup) {
       if (!formData.name.trim()) {
         alert('Please enter your name.');
         return;
@@ -40,8 +43,12 @@ const BeaTasker = () => {
         alert('Please select an area.');
         return;
       }
-      if (!formData.task.trim()) {
-        alert('Please select a task.');
+      if (!formData.worktype.trim()) {
+        alert('Please select a work type.');
+        return;
+      }
+      if (!formData.city.trim()) {
+        alert('Please enter your city.');
         return;
       }
       if (!/^\d{10}$/.test(formData.phone.trim())) {
@@ -65,9 +72,17 @@ const BeaTasker = () => {
       alert('Please enter a valid email.');
       return;
     }
+
   
     try {
-      const response = await fetch(isSignup ? 'http://localhost:4000/taskersignup' : 'http://localhost:4000/taskerlogin', {
+      const response = await fetch(isSignup ? 
+        'https://newjobjunction.onrender.com/workers/signup' 
+        
+        :
+        
+        'https://newjobjunction.onrender.com/workers/login'
+         
+         , {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -76,6 +91,10 @@ const BeaTasker = () => {
       });
       const data = await response.json();
       if (response.status === 201) {
+
+        // cookies.set('access_token', data.token, { path: '/' });
+        // navigate('/Userhome');
+
         setPopupContent("Signup successful!");
         setShowPopup(true);
         setIsSignup(false);
@@ -96,7 +115,9 @@ const BeaTasker = () => {
         setIsSignup(false);
         navigate('/BeaTasker');
       } else if (response.status === 200) {
-        cookies.set('taskertoken', data, { path: '/' });
+       
+        
+        cookies.set('access_token_worker', data.token, { path: '/' });
         navigate('/taskerprofile');
       }
       console.log(data);
@@ -141,89 +162,21 @@ const BeaTasker = () => {
                   <option value="Railnagar">Railnagar </option>
                   <option value="Bhagvatipara">Bhagvatipara</option>
                   <option value="Morbi Road">Morbi Road </option>
-                  <option value="IMA">IMA </option>
-                  <option value="Kabirvan">Kabirvan </option>
-                  <option value="Ram Park">Ram Park </option>
-                  <option value="Redcross Sadar">Redcross Sadar </option>
-                  <option value="Redcross Ramnathpara">Redcross Ramnathpara</option>
-                  <option value="Nana Mauva">Nana Mauva</option>
-                  <option value="Aambedkarnagar">Aambedkarnagar </option>
-                  <option value="Vijayplot">Vijayplot </option>
-                  <option value="Nandanvan">Nandanvan </option>
-                  <option value="Mavdi">Mavdi </option>
-                  <option value="Narayannagar">Narayannagar </option>
-                  <option value="AHMP">AHMP </option>
-                  <option value="Champaknagar">Champaknagar </option>
-                  <option value="Hudko">Hudko </option>
-                  <option value="Pranami Chowk">Pranami Chowk </option>
-                  <option value="New Raghuvir">New Raghuvir </option>
-                  <option value="Kothariya">Kothariya </option>
-                </select>
+                 </select>
               </div>
             </div>
             <div className="row mb-3">
               <div className="col-md-12">
                 <label htmlFor="task" className="form-label">Select Task</label>
-                <select  className="form-control form-select" id="task" placeholder="Task" name='task' onChange={handleChange} value={formData.task}>
+                <select  className="form-control form-select" id="worktype" placeholder="worktype" name='worktype' onChange={handleChange} value={formData.worktype}>
                 <option value="">Select One</option>
+          
           {/* Assembly */}
           <option value="General Furniture Assembly">General Furniture Assembly</option>
-          <option value="Bookshelf Assembly">Bookshelf Assembly</option>
-          <option value="Desk Assembly">Desk Assembly</option>
-          <option value="Crib Assembly">Crib Assembly</option>
-          <option value="PAX Assembly">PAX Assembly</option>
-          
           {/* Mounting */}
           <option value="General Mounting">General Mounting</option>
-          <option value="TV Mounting">TV Mounting</option>
-          <option value="Mount Shelves">Mount Shelves</option>
-          <option value="Install Curtains & Blinds">Install Curtains & Blinds</option>
-          <option value="Hang Art">Hang Art</option>
-          <option value="Mount Home Decor">Mount Home Decor</option>
-          
-          {/* Moving */}
-          <option value="Help Moving">Help Moving</option>
-          <option value="Trash & Furniture Removal">Trash & Furniture Removal</option>
-          <option value="Heavy Lifting & Loading">Heavy Lifting & Loading</option>
-          <option value="Rearrange Furniture">Rearrange Furniture</option>
-          <option value="Junk Haul Away">Junk Haul Away</option>
-          <option value="Apartment Moving">Apartment Moving</option>
-          
-          {/* Cleaning */}
-          <option value="Party Clean Up">Party Clean Up</option>
-          <option value="Apartment Cleaning">Apartment Cleaning</option>
-          <option value="Deep Clean">Deep Clean</option>
-          <option value="Garage Cleaning">Garage Cleaning</option>
-          <option value="Move Out Clean">Move Out Clean</option>
-          <option value="Office Cleaning">Office Cleaning</option>
-          
-          {/* OutdoorHelp */}
-          <option value="Yard Work">Yard Work</option>
-          <option value="Lawn Care">Lawn Care</option>
-          <option value="Snow Removal">Snow Removal</option>
-          <option value="Landscaping Help">Landscaping Help</option>
-          <option value="Branch & Hedge Trimming">Branch & Hedge Trimming</option>
-          <option value="Gardening & Weeding">Gardening & Weeding</option>
-          
-          {/* HomeRepairs */}
-          <option value="Door, Cabinet, & Furniture Repair">Door, Cabinet, & Furniture Repair</option>
-          <option value="Wall Repair">Wall Repair</option>
-          <option value="Sealing & Caulking">Sealing & Caulking</option>
-          <option value="Appliance Installation & Repairs">Appliance Installation & Repairs</option>
-          <option value="Window & Blinds Repair">Window & Blinds Repair</option>
-          <option value="Flooring & Tiling Help">Flooring & Tiling Help</option>
-          <option value="Electrical Help">Electrical Help</option>
-          <option value="Plumbing Help">Plumbing Help</option>
-          <option value="Light Carpentry">Light Carpentry</option>
-          
-          {/* Painting */}
-          <option value="Indoor Painting">Indoor Painting</option>
-          <option value="Wallpapering">Wallpapering</option>
-          <option value="Outdoor Painting">Outdoor Painting</option>
-          <option value="Concrete & Brick Painting">Concrete & Brick Painting</option>
-          <option value="Accent Wall Painting">Accent Wall Painting</option>
-          <option value="Wallpaper Removal">Wallpaper Removal</option>
-        </select>
+           
+          </select>
                 
               </div>
             </div>

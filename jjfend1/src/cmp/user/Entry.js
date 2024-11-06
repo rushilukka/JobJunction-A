@@ -3,50 +3,12 @@ import React,{useEffect,useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Navbar, Container } from 'react-bootstrap';
 import Cookies from 'universal-cookie';
-import { jwtDecode } from 'jwt-decode';
-const cookies = new Cookies();
+ const cookies = new Cookies();
 
-async function handleLogin(email, password) {
-  try {
-      const response = await fetch('https://newjobjunction.onrender.com/auth/login', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-              email: email,
-              password: password
-          }),
-      });
-
-      if (!response.ok) {
-          throw new Error('Login failed');
-      }
-
-      const data = await response.json();
-
-      if (data.token) {
-          cookies.set('access_token', data.token, {
-              path: '/',
-              secure: true,
-              sameSite: 'strict'
-          });
-          return data.token;
-      } else {
-          throw new Error('Token not received');
-      }
-  } catch (error) {
-      console.error('Error during login:', error);
-      throw error;
-  }
-}
+ 
 
 const Entry = () => {
-  const [token, setToken] = useState(null);
-  // const [decodedToken, setDecodedToken] = useState(null);
-  // const [loading, setLoading] = useState(true);
-  // const [error, setError] = useState(null);
-  const navigate = useNavigate();
+   const navigate = useNavigate();
   const [popupContent, setPopupContent] = useState('');
   const [showPopup, setShowPopup] = useState(false);
   const [isSignup, setIsSignup] = useState(false);
@@ -57,41 +19,7 @@ const Entry = () => {
     phone: '',
     area: ''
   });
-
-
-  // cookies.remove('access_token');
-  let resp = {
-    "message": "Login successful",
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTczMDkwMTE2MCwiZXhwIjoxNzMwOTQ0MzYwfQ.6z0NewAj-jzFJbxG9Ha8UkB494cZVhMa7ShBfAeO5JY",
-    "userId": 1
-}
-  // setToken(resp.token);
-  // cookies.set('access_token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTczMDkwMTE2MCwiZXhwIjoxNzMwOTQ0MzYwfQ.6z0NewAj-jzFJbxG9Ha8UkB494cZVhMa7ShBfAeO5JY");
-  // const tokenx = cookies.get('access_token'); // Get the token from cookies
-  // if(tokenx)   navigate('/Userhome');
-  
-  // useEffect(() => {
-  //   const login = async () => {
-  //     try {
-  //         // Perform login and store token in both state and cookies
-  //         const token = await handleLogin("harshsoni9684@gmail.com", "password");
-  //         setToken(token);
-  //         cookies.set('access_token', token); // Store token in cookies
-  //         const decoded = jwtDecode(token);
-  //         setDecodedToken(decoded);
-     
-  //     } catch (error) {
-  //       setError(error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-  //   if(!tokenx) login();
-  // }, []);
-  // // if (loading) return <div>Loading</div>;
-  // if (error) return <div>Error: {error.message}</div>;
-
-  const toggleForm = () => {
+   const toggleForm = () => {
     setIsSignup(!isSignup);
   };
 
@@ -140,9 +68,9 @@ const Entry = () => {
           setIsSignup(false);
           navigate('/Entry');
         } else if(response.status === 200){
-          cookies.set('access_token', data, { path: '/' });
+          cookies.set('access_token', data.token, { path: '/' });
           navigate('/Userhome');
-        }
+        }   
       
         if (response.status === 400) {
           setPopupContent("User already exists. Please use a different email.");

@@ -6,24 +6,19 @@ import Navbar from 'react-bootstrap/Navbar';
 import { useState,useEffect } from 'react';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import logo from './logo.jpeg';
+// import logo from './logo.jpeg';
+import logo from '../../logo.jpeg'
 import {  useNavigate } from 'react-router-dom';
-// import img1 from './images/assembly.webp'
-// import img2 from './images/cleaning.jpg'
-// import img3 from './images/homerepairs.jpg'
-// import img4 from './images/moutning.jpeg'
-// import img5 from './images/moving.webp'
-// import img6 from './images/outdoor.jpg'
-// import img7 from './images/painting.jpg'
-// import img8 from './images/trending.jpeg'
-import project1 from './images/project1.jpeg'
-import project2 from './images/project2.jpg'
-import project3 from './images/project3.jpg'
-import project4 from './images/project4.jpg'
-import project5 from './images/project5.jpg'
-import project6 from './images/project6.webp'
-import project7 from './images/project7.jpg'
-import project8 from './images/project8.jpeg'
+ 
+import project1 from '../../images/project1.jpeg'
+import project2 from '../../images/project2.jpg'
+import project3 from '../../images/project3.jpg'
+import project4 from '../../images/project4.jpg'
+import project5 from '../../images/project5.jpg'
+import project6 from '../../images/project6.webp'
+import project7 from '../../images/project7.jpg'
+import project8 from '../../images/project8.jpeg'
+// import project1 from '../../images'
 import { Link } from 'react-router-dom';
 
 import Cookies from 'universal-cookie';
@@ -33,11 +28,7 @@ const cookies = new Cookies();
 
 function Userhome() {
   const navigate = useNavigate();
-  const [key, setKey] = useState('');
-  const [tasks, setTasks] = useState([]);
-  const [filteredTasks, setFilteredTasks] = useState([]);
-  const [query, setQuery] = useState('');
-  
+ 
   const LogOut =() => {
     cookies.remove('access_token');
   }

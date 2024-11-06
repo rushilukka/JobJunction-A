@@ -7,19 +7,25 @@ import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import img1 from '../images/img1.jpeg'
-import logo from '../logo.jpeg';
+import img1 from '../../images/img1.jpeg'
+import logo from '../../logo.jpeg';
 import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
+import Cookies from 'universal-cookie';
 
+const cookies  = new Cookies();
+
+const taskerId = 1;
+  
 const TaskerProfile = () => {
-  const [cookies] = useCookies(['taskertoken']);
+  // const [cookies] = useCookies(['taskertoken']);
   // const [taskername, setTaskerName] = useState('');
   // const [taskerphone, setTaskerPhone] = useState('');
   // const [taskeremail, setTaskerEmail] = useState('');
   const [taskerarea, setTaskerArea] = useState('');
   const [taskertask, setTaskerTask] = useState('');
   // const [taskerpassword, setTaskerPassword] = useState('');
-  const taskerId = cookies.taskertoken.taskerId;
+  // const taskerId = cookies.taskertoken.taskerId;
   const [isEditing, setIsEditing] = useState(false);
   const [profileData, setProfileData] = useState({
     name: '',
@@ -29,46 +35,51 @@ const TaskerProfile = () => {
     password: '', 
     task: ''
   });
+  let token;
   const Navigate = useNavigate()
 
-  const deleteYesterdayEntries = async () => {
-    try {
-      await fetch('http://localhost:4000/deleteYesterdayEntries', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ currentDate: new Date() })
-      });
-    } catch (error) {
-      console.error('Error deleting yesterday entries:', error);
-    }
-  };
-
+  // const deleteYesterdayEntries = async () => {
+  //   try {
+  //     await fetch('http://localhost:4000/deleteYesterdayEntries', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json'
+  //       },
+  //       body: JSON.stringify({ currentDate: new Date() })
+  //     });
+  //   } catch (error) {
+  //     console.error('Error deleting yesterday entries:', error);
+  //   }
+  // };
+  token = jwtDecode(cookies.get('access_token_worker')); // Get the token from 
   useEffect(() => {
-    if (cookies.taskertoken) {
-      const taskerData = cookies.taskertoken;
+    token = cookies.get('access_token_worker'); // Get the token from cookies
+  if (cookies.get('access_token_worker')) {
+      // const taskerData = jwtDecode(cookies.get('access_token_worker'));
+
       // setTaskerName(taskerData.name);
       // setTaskerPhone(taskerData.phone);
       // setTaskerEmail(taskerData.email);
-      setTaskerArea(taskerData.area);
       // setTaskerPassword(taskerData.password);
-      setTaskerTask(taskerData.task);
-      
       // Set profileData after updating state variables
-      setProfileData({
-        name: taskerData.name || '',
-        email: taskerData.email || '',
-        area: taskerData.area || '',
-        phone: taskerData.phone || '',
-        password: taskerData.password || '',
-        task: taskerData.task || ''
-      });
+      
+      
+      // setTaskerArea(taskerData.area);
+      // setTaskerTask(taskerData.task);
+      
+      // setProfileData({
+      //   name: taskerData.name || '',
+      //   email: taskerData.email || '',
+      //   area: taskerData.area || '',
+      //   phone: taskerData.phone || '',
+      //   password: taskerData.password || '',
+      //   task: taskerData.task || ''
+      // });
     }
    
-    deleteYesterdayEntries();
+    // deleteYesterdayEntries();
   
-  }, [cookies.taskertoken]);
+  }, []);
 
   
 
@@ -140,6 +151,14 @@ const TaskerProfile = () => {
               className="d-inline-block align-top"
             />{' '}
             JobJunction
+            <pre>         </pre>
+             <ul>
+        {Object.entries(token).map(([key, value]) => (
+          <li key={key}>
+            <strong>{key}:</strong> {value.toString()}
+          </li>
+        ))}
+      </ul>
             </Link>
           </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
@@ -155,12 +174,15 @@ const TaskerProfile = () => {
         </Navbar.Collapse>
       </Container>
     </Navbar>
+
+
     <div className="container-fluid bg-dark text-black" style={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
     <div  className="user-profile-form bg-dark text-light rounded text-center col-7 ">
      
      <div className="row mb-3">
      <div className="col-md-8 p-3">
       <Form >
+    
           <h2>Tasker Profile</h2>
      
         <Form.Group controlId="formName">
@@ -193,24 +215,7 @@ const TaskerProfile = () => {
                   <option value="Railnagar">Railnagar </option>
                   <option value="Bhagvatipara">Bhagvatipara</option>
                   <option value="Morbi Road">Morbi Road </option>
-                  <option value="IMA">IMA </option>
-                  <option value="Kabirvan">Kabirvan </option>
-                  <option value="Ram Park">Ram Park </option>
-                  <option value="Redcross Sadar">Redcross Sadar </option>
-                  <option value="Redcross Ramnathpara">Redcross Ramnathpara</option>
-                  <option value="Nana Mauva">Nana Mauva</option>
-                  <option value="Aambedkarnagar">Aambedkarnagar </option>
-                  <option value="Vijayplot">Vijayplot </option>
-                  <option value="Nandanvan">Nandanvan </option>
-                  <option value="Mavdi">Mavdi </option>
-                  <option value="Narayannagar">Narayannagar </option>
-                  <option value="AHMP">AHMP </option>
-                  <option value="Champaknagar">Champaknagar </option>
-                  <option value="Hudko">Hudko </option>
-                  <option value="Pranami Chowk">Pranami Chowk </option>
-                  <option value="New Raghuvir">New Raghuvir </option>
-                  <option value="Kothariya">Kothariya </option>
-            </select>
+                 </select>
           </Form.Group>
 
         <Form.Group controlId="formPhoneNumber">
@@ -230,62 +235,10 @@ const TaskerProfile = () => {
             <option value={taskertask}>Select One</option>
                   {/* Assembly */}
           <option value="General Furniture Assembly">General Furniture Assembly</option>
-          <option value="Bookshelf Assembly">Bookshelf Assembly</option>
-          <option value="Desk Assembly">Desk Assembly</option>
-          <option value="Crib Assembly">Crib Assembly</option>
-          <option value="PAX Assembly">PAX Assembly</option>
-          
+           
           {/* Mounting */}
           <option value="General Mounting">General Mounting</option>
-          <option value="TV Mounting">TV Mounting</option>
-          <option value="Mount Shelves">Mount Shelves</option>
-          <option value="Install Curtains & Blinds">Install Curtains & Blinds</option>
-          <option value="Hang Art">Hang Art</option>
-          <option value="Mount Home Decor">Mount Home Decor</option>
-          
-          {/* Moving */}
-          <option value="Help Moving">Help Moving</option>
-          <option value="Trash & Furniture Removal">Trash & Furniture Removal</option>
-          <option value="Heavy Lifting & Loading">Heavy Lifting & Loading</option>
-          <option value="Rearrange Furniture">Rearrange Furniture</option>
-          <option value="Junk Haul Away">Junk Haul Away</option>
-          <option value="Apartment Moving">Apartment Moving</option>
-          
-          {/* Cleaning */}
-          <option value="Party Clean Up">Party Clean Up</option>
-          <option value="Apartment Cleaning">Apartment Cleaning</option>
-          <option value="Deep Clean">Deep Clean</option>
-          <option value="Garage Cleaning">Garage Cleaning</option>
-          <option value="Move Out Clean">Move Out Clean</option>
-          <option value="Office Cleaning">Office Cleaning</option>
-          
-          {/* OutdoorHelp */}
-          <option value="Yard Work">Yard Work</option>
-          <option value="Lawn Care">Lawn Care</option>
-          <option value="Snow Removal">Snow Removal</option>
-          <option value="Landscaping Help">Landscaping Help</option>
-          <option value="Branch & Hedge Trimming">Branch & Hedge Trimming</option>
-          <option value="Gardening & Weeding">Gardening & Weeding</option>
-          
-          {/* HomeRepairs */}
-          <option value="Door, Cabinet, & Furniture Repair">Door, Cabinet, & Furniture Repair</option>
-          <option value="Wall Repair">Wall Repair</option>
-          <option value="Sealing & Caulking">Sealing & Caulking</option>
-          <option value="Appliance Installation & Repairs">Appliance Installation & Repairs</option>
-          <option value="Window & Blinds Repair">Window & Blinds Repair</option>
-          <option value="Flooring & Tiling Help">Flooring & Tiling Help</option>
-          <option value="Electrical Help">Electrical Help</option>
-          <option value="Plumbing Help">Plumbing Help</option>
-          <option value="Light Carpentry">Light Carpentry</option>
-          
-          {/* Painting */}
-          <option value="Indoor Painting">Indoor Painting</option>
-          <option value="Wallpapering">Wallpapering</option>
-          <option value="Outdoor Painting">Outdoor Painting</option>
-          <option value="Concrete & Brick Painting">Concrete & Brick Painting</option>
-          <option value="Accent Wall Painting">Accent Wall Painting</option>
-          <option value="Wallpaper Removal">Wallpaper Removal</option>
-            </select>
+        </select>
           </Form.Group>
 
 

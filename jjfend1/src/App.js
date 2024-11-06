@@ -1,33 +1,32 @@
 import './App.css';
 import { BrowserRouter,Route,Routes} from 'react-router-dom';
 import Home from './Home';
-import Entry from './cmp/Entry';
-import BeaTasker from './cmp/BeaTasker'
-import Userhome from './Userhome';
+import Entry from './cmp/user/Entry';
+import BeaTasker from './cmp/worker/BeaTasker'
+import Userhome from './cmp/user/Userhome';
 import ConfirmationPage from './cmp/ConfirmationPage';
 import Searchresults from './cmp/searchresult';
 import BookingForm from './cmp/BookingForm';
-import UserProfile from './cmp/userProfile';
-import TaskerProfile from './cmp/taskerProfile';
-import UserCancel from './cmp/usercancel';
-import TaskerCancel from './cmp/taskercancel';
+import UserProfile from './cmp/user/userProfile';
+import TaskerProfile from './cmp/worker/taskerProfile';
+import UserCancel from './cmp/user/usercancel';
+import TaskerCancel from './cmp/worker/taskercancel';
 import CouponBooking from './cmp/CouponBooking';
-import UserReviewForm from './cmp/userReview';
-import TaskerIncompReasonForm from './cmp/TaskerIncompletedreason'
-import UserIncompReasonForm from './cmp/userIncompletedreason'
+import UserReviewForm from './cmp/user/userReview';
+import TaskerIncompReasonForm from './cmp/worker/TaskerIncompletedreason'
+import UserIncompReasonForm from './cmp/user/userIncompletedreason'
 import DiscountCoupon from './cmp/DiscountCoupon';
 import Pendingwork from './cmp/pendingwork';
 import UserCompletedwork from './cmp/completedwork';
-import UserInCompletedwork from './cmp/UserIncompleted';
+import UserInCompletedwork from './cmp/user/UserIncompleted';
 import IncomingRequest from './cmp/incomingrequest';
-import TaskerPendingWork from './cmp/taskerpendingwork';
-import TaskerCompletedWork from './cmp/TaskerCompletedwork';
-import TaskerInCompletedWork from './cmp/TaskerIncompleted';
+import TaskerPendingWork from './cmp/worker/taskerpendingwork';
+import TaskerCompletedWork from './cmp/worker/TaskerCompletedwork';
+import TaskerInCompletedWork from './cmp/worker/TaskerIncompleted';
 
 
 import ProtectedRoute from './Authencation/1ProtectedRoute';
-
-
+ import ProtectedRouteWorker from './Authencation/1ProtectedRoute_Worker';
 
  function App() {
   return (
@@ -48,12 +47,8 @@ import ProtectedRoute from './Authencation/1ProtectedRoute';
         </Route>
         <Route path="/Entry" element={<Entry />}></Route>
        
-        <Route path="/BeaTasker" element={
-          <ProtectedRoute element={<BeaTasker />
-          
-          }/>}>
-
-          </Route>
+        <Route path="/BeaTasker" element={<BeaTasker />}></Route>
+        
         <Route path="/Confirmation" element={
           <ProtectedRoute element={<ConfirmationPage />
 
@@ -85,7 +80,7 @@ import ProtectedRoute from './Authencation/1ProtectedRoute';
 
       </Route>
         <Route path='/taskerprofile' element={
-        <ProtectedRoute element={
+        <ProtectedRouteWorker element={
         <TaskerProfile />
       }/>}>
             
@@ -101,7 +96,7 @@ import ProtectedRoute from './Authencation/1ProtectedRoute';
 
       </Route>
         <Route path='/taskercancel' element={
-        <ProtectedRoute element={
+        <ProtectedRouteWorker element={
         <TaskerCancel />
       }/>}>
             
@@ -125,7 +120,7 @@ import ProtectedRoute from './Authencation/1ProtectedRoute';
 
       </Route>
         <Route path='/taskerincompreviewform' element={
-        <ProtectedRoute element={
+        <ProtectedRouteWorker element={
         <TaskerIncompReasonForm />
       }/>}>
             
@@ -173,7 +168,7 @@ import ProtectedRoute from './Authencation/1ProtectedRoute';
 
       </Route>
         <Route path='/incomingrequest' element={
-        <ProtectedRoute element={
+        <ProtectedRouteWorker element={
         <IncomingRequest />
       }/>}>
             
@@ -181,7 +176,7 @@ import ProtectedRoute from './Authencation/1ProtectedRoute';
 
       </Route>
         <Route path='/taskerpending' element={
-        <ProtectedRoute element={
+        <ProtectedRouteWorker element={
         <TaskerPendingWork />
       }/>}>
             
@@ -189,7 +184,7 @@ import ProtectedRoute from './Authencation/1ProtectedRoute';
 
       </Route>
         <Route path='/taskercompleted' element={
-        <ProtectedRoute element={
+        <ProtectedRouteWorker element={
         <TaskerCompletedWork />
       }/>}>
             
@@ -197,7 +192,7 @@ import ProtectedRoute from './Authencation/1ProtectedRoute';
 
       </Route>
         <Route path='/taskerincompleted' element={
-        <ProtectedRoute element={
+        <ProtectedRouteWorker element={
         <TaskerInCompletedWork />
       }/>}>
             
