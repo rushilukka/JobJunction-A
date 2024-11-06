@@ -25,13 +25,23 @@ import project6 from './images/project6.webp'
 import project7 from './images/project7.jpg'
 import project8 from './images/project8.jpeg'
 import { Link } from 'react-router-dom';
+
+import Cookies from 'universal-cookie';
+import { jwtDecode } from 'jwt-decode';
+const cookies = new Cookies();
+
+
 function Userhome() {
   const navigate = useNavigate();
   const [key, setKey] = useState('');
   const [tasks, setTasks] = useState([]);
   const [filteredTasks, setFilteredTasks] = useState([]);
   const [query, setQuery] = useState('');
-   
+  
+  const LogOut =() => {
+    cookies.remove('access_token');
+  }
+
 return (
     
     <div className="bg-dark text-white">
@@ -60,7 +70,7 @@ return (
                   
              {/* <Button variant="btn btn-primary btn-lg" className="ms-2">Admin</Button>  */}
             <Link to='/' className='text-decoration-none'>
-              <button type="submit" className="btn btn-danger btn-lg mx-4">LogOut</button>
+              <button type="submit" onClick={LogOut} className="btn btn-danger btn-lg mx-4">LogOut</button>
             </Link>
              <Link to='/userprofile' className='text-decoration-none'>
             

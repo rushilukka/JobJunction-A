@@ -5,7 +5,6 @@ import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
- 
 import logo from './logo.jpeg';
 import project1 from './images/project1.jpeg'
 import project2 from './images/project2.jpg'
@@ -15,57 +14,27 @@ import project5 from './images/project5.jpg'
 import project6 from './images/project6.webp'
 import project7 from './images/project7.jpg'
 import project8 from './images/project8.jpeg'
-import {Link } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import { jwtDecode } from 'jwt-decode';
+import { Link, useNavigate } from 'react-router-dom';
+
 const cookies = new Cookies();
-
-async function handleLogin(email, password) {
-  try {
-      const response = await fetch('https://newjobjunction.onrender.com/auth/login', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-              email: email,
-              password: password
-          }),
-      });
-
-      if (!response.ok) {
-          throw new Error('Login failed');
-      }
-
-      const data = await response.json();
-
-      if (data.token) {
-          cookies.set('access_token', data.token, {
-              path: '/',
-              secure: true,
-              sameSite: 'strict'
-          });
-          return data.token;
-      } else {
-          throw new Error('Token not received');
-      }
-  } catch (error) {
-      console.error('Error during login:', error);
-      throw error;
-  }
-}
-
-
-
 function Home() {
+  const navigate = useNavigate();
+  const [token, setToken] = useState(null);
   
+  // cookies.set('access_token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTczMDkwMTE2MCwiZXhwIjoxNzMwOTQ0MzYwfQ.6z0NewAj-jzFJbxG9Ha8UkB494cZVhMa7ShBfAeO5JY");
+  
+  const tokenx = cookies.get('access_token'); // Get the token from cookies
+   
   // const [key, setKey] = useState('');
   // const [tasks, setTasks] = useState([]);
   // const [filteredTasks, setFilteredTasks] = useState([]);
 
   return (
     <>
-     <div className="bg-dark text-white">
+
+    <div className="bg-dark text-white">
     <Navbar expand="lg" bg="secondary" variant="dark">
       <Container fluid>
       <Navbar.Brand>
@@ -76,12 +45,12 @@ function Home() {
               width="30"
               height="30"
               className="d-inline-block align-top"
-            />{' '}
-            JobJunction
+            />
+            {' '}
+             JobJunction
             </Link>
           </Navbar.Brand>
-   
-     
+    
           <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav
@@ -91,17 +60,23 @@ function Home() {
           >
           </Nav>
          
-           <Link to='/Entry' className='text-decoration-none'>
+        //____________________________________________________________
+             {tokenx?   
+              <Link to='/Userhome' className='text-decoration-none'>
+                 <Button variant="btn btn-info btn-lg" className="mx-4">SignUp/Login</Button>
+                 </Link>
+                : 
+              <Link to='/Entry' className='text-decoration-none'>
+                 <Button variant="btn btn-info btn-lg" className="mx-4">SignUp/Login</Button>
+                 </Link>
+            } 
          
-               <Button variant="btn btn-info btn-lg" className="mx-4">SignUp/Login</Button>
-            </Link>
-
+              
            <Link to='/BeaTasker' className='text-decoration-none'>
              
                <Button variant="btn btn-primary btn-lg" className="ms-2">Be a Tasker</Button> 
             </Link>
-          
-          
+            
         </Navbar.Collapse>
        </Container>
     </Navbar>

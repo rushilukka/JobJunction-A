@@ -42,12 +42,10 @@ async function handleLogin(email, password) {
 }
 
 const Entry = () => {
-     
-
   const [token, setToken] = useState(null);
-  const [decodedToken, setDecodedToken] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  // const [decodedToken, setDecodedToken] = useState(null);
+  // const [loading, setLoading] = useState(true);
+  // const [error, setError] = useState(null);
   const navigate = useNavigate();
   const [popupContent, setPopupContent] = useState('');
   const [showPopup, setShowPopup] = useState(false);
@@ -60,32 +58,38 @@ const Entry = () => {
     area: ''
   });
 
-  cookies.remove('access_token');
-  const tokenx = cookies.get('access_token'); // Get the token from cookies
-  if(tokenx)  navigate('/Userhome');
+
+  // cookies.remove('access_token');
+  let resp = {
+    "message": "Login successful",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTczMDkwMTE2MCwiZXhwIjoxNzMwOTQ0MzYwfQ.6z0NewAj-jzFJbxG9Ha8UkB494cZVhMa7ShBfAeO5JY",
+    "userId": 1
+}
+  // setToken(resp.token);
+  // cookies.set('access_token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTczMDkwMTE2MCwiZXhwIjoxNzMwOTQ0MzYwfQ.6z0NewAj-jzFJbxG9Ha8UkB494cZVhMa7ShBfAeO5JY");
+  // const tokenx = cookies.get('access_token'); // Get the token from cookies
+  // if(tokenx)   navigate('/Userhome');
   
-
-
-  useEffect(() => {
-    const login = async () => {
-      try {
-          // Perform login and store token in both state and cookies
-          const token = await handleLogin("harshsoni9684@gmail.com", "password");
-          setToken(token);
-          cookies.set('access_token', token); // Store token in cookies
-          const decoded = jwtDecode(token);
-          setDecodedToken(decoded);
+  // useEffect(() => {
+  //   const login = async () => {
+  //     try {
+  //         // Perform login and store token in both state and cookies
+  //         const token = await handleLogin("harshsoni9684@gmail.com", "password");
+  //         setToken(token);
+  //         cookies.set('access_token', token); // Store token in cookies
+  //         const decoded = jwtDecode(token);
+  //         setDecodedToken(decoded);
      
-      } catch (error) {
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    login();
-  }, []);
-  if (error) return <div>Error: {error.message}</div>;
+  //     } catch (error) {
+  //       setError(error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+  //   if(!tokenx) login();
+  // }, []);
+  // // if (loading) return <div>Loading</div>;
+  // if (error) return <div>Error: {error.message}</div>;
 
   const toggleForm = () => {
     setIsSignup(!isSignup);
@@ -120,7 +124,47 @@ const Entry = () => {
       }
     }
      
-        
+    try {
+      const response = await fetch(isSignup ? 'https://newjobjunction.onrender.com/auth/signup' : 'https://newjobjunction.onrender.com/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+      let data = await response.json();
+      
+        if (response.status === 201) {
+          setPopupContent("Sign up successful!");
+          setShowPopup(true);
+          setIsSignup(false);
+          navigate('/Entry');
+        } else if(response.status === 200){
+          cookies.set('access_token', data, { path: '/' });
+          navigate('/Userhome');
+        }
+      
+        if (response.status === 400) {
+          setPopupContent("User already exists. Please use a different email.");
+          setShowPopup(true);
+          setIsSignup(true);
+          navigate('/Entry');
+        } else if (response.status === 500) {
+          setPopupContent("Server error");
+          setShowPopup(true);
+          setIsSignup(true);
+          navigate('/Entry');
+        } else if (response.status === 401) {
+          setPopupContent("Invalid credentials");
+          setShowPopup(true);
+          navigate('/Entry');
+        } else if (response.status === 210) {
+          navigate('/adminpanel');
+        }
+      
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   const validateEmail = email => {
