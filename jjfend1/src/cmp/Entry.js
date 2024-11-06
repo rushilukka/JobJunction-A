@@ -1,11 +1,53 @@
-import React, { useState } from 'react';
+import React,{useEffect,useState} from 'react';
+
 import { Link, useNavigate } from 'react-router-dom';
 import { Navbar, Container } from 'react-bootstrap';
 import Cookies from 'universal-cookie';
-
+import { jwtDecode } from 'jwt-decode';
 const cookies = new Cookies();
 
+async function handleLogin(email, password) {
+  try {
+      const response = await fetch('https://newjobjunction.onrender.com/auth/login', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+              email: email,
+              password: password
+          }),
+      });
+
+      if (!response.ok) {
+          throw new Error('Login failed');
+      }
+
+      const data = await response.json();
+
+      if (data.token) {
+          cookies.set('access_token', data.token, {
+              path: '/',
+              secure: true,
+              sameSite: 'strict'
+          });
+          return data.token;
+      } else {
+          throw new Error('Token not received');
+      }
+  } catch (error) {
+      console.error('Error during login:', error);
+      throw error;
+  }
+}
+
 const Entry = () => {
+     
+
+  const [token, setToken] = useState(null);
+  const [decodedToken, setDecodedToken] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
   const [popupContent, setPopupContent] = useState('');
   const [showPopup, setShowPopup] = useState(false);
@@ -17,6 +59,33 @@ const Entry = () => {
     phone: '',
     area: ''
   });
+
+  cookies.remove('access_token');
+  const tokenx = cookies.get('access_token'); // Get the token from cookies
+  if(tokenx)  navigate('/Userhome');
+  
+
+
+  useEffect(() => {
+    const login = async () => {
+      try {
+          // Perform login and store token in both state and cookies
+          const token = await handleLogin("harshsoni9684@gmail.com", "password");
+          setToken(token);
+          cookies.set('access_token', token); // Store token in cookies
+          const decoded = jwtDecode(token);
+          setDecodedToken(decoded);
+     
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    login();
+  }, []);
+  if (error) return <div>Error: {error.message}</div>;
 
   const toggleForm = () => {
     setIsSignup(!isSignup);
@@ -50,55 +119,7 @@ const Entry = () => {
         return;
       }
     }
-    let data ={
-        "message": "Login successful",
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTczMDc4ODU0OSwiZXhwIjoxNzMwODMxNzQ5fQ.ZnvSvhb3KEiJV6Z7TMTqbn6oeFBHv7dhuGE5mKIPgEo",
-        "userId": 1
-    
-    };//from resp
-    // try {
-    //   const response = await fetch(isSignup ? 'https://newjobjunction.onrender.com/auth/signup' : 'https://newjobjunction.onrender.com/auth/login', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify(formData)
-    //   });
-    //    data = await response.json();
-      
-    //     if (response.status === 201) {
-    //       setPopupContent("Sign up successful!");
-    //       setShowPopup(true);
-    //       setIsSignup(false);
-    //       navigate('/Entry');
-    //     } else if(response.status === 200){
-    //       cookies.set('token', data, { path: '/' });
-    //       navigate('/Userhome');
-    //     }
-      
-    //     if (response.status === 400) {
-    //       setPopupContent("User already exists. Please use a different email.");
-    //       setShowPopup(true);
-    //       setIsSignup(true);
-    //       navigate('/Entry');
-    //     } else if (response.status === 500) {
-    //       setPopupContent("Server error");
-    //       setShowPopup(true);
-    //       setIsSignup(true);
-    //       navigate('/Entry');
-    //     } else if (response.status === 401) {
-    //       setPopupContent("Invalid credentials");
-    //       setShowPopup(true);
-    //       navigate('/Entry');
-    //     }  
-      
-    // } catch (error) {
-    //   console.error('Error:', error);
-    // }
-
-
-
-           navigate('/Userhome');
+     
         
   };
 

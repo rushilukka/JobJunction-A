@@ -34,32 +34,176 @@ import ProtectedRoute from './Authencation/1ProtectedRoute';
     <BrowserRouter>
     
       <Routes>
-        <Route path="/" element={<Home />}></Route>
+        <Route path="/" element={
+          
+          <Home />
+          }></Route>
          
         <Route path="/Userhome" element={
-          <ProtectedRoute element={<Userhome/>}/>         
-          }></Route>
+        
+        <ProtectedRoute element={<Userhome/>
+
+        }/>}>
+
+        </Route>
         <Route path="/Entry" element={<Entry />}></Route>
-        <Route path="/BeaTasker" element={<BeaTasker />}></Route>
-        <Route path="/Confirmation" element={<ConfirmationPage />}></Route>
-        <Route path="/searchedresults" element={<Searchresults />}></Route>
-        <Route path='/bookingform' element={<BookingForm />}></Route>
-        <Route path='/userprofile' element={<UserProfile />}></Route>
-        <Route path='/taskerprofile' element={<TaskerProfile />}></Route>
-        <Route path='/usercancel' element={<UserCancel />}></Route>
-        <Route path='/taskercancel' element={<TaskerCancel />}></Route>
-        <Route path='/couponbooking' element={<CouponBooking />}></Route>
-        <Route path='/userreviewform' element={<UserReviewForm />}></Route>
-        <Route path='/taskerincompreviewform' element={<TaskerIncompReasonForm />}></Route>
-        <Route path='/userincompreviewform' element={<UserIncompReasonForm />}></Route>
-        <Route path='/discountcoupon' element={<DiscountCoupon />}></Route>
-        <Route path='/userpending' element={<Pendingwork />}></Route>
-        <Route path='/usercompleted' element={<UserCompletedwork />}></Route>
-        <Route path='/userincompleted' element={<UserInCompletedwork />}></Route>
-        <Route path='/incomingrequest' element={<IncomingRequest />}></Route>
-        <Route path='/taskerpending' element={<TaskerPendingWork />}></Route>
-        <Route path='/taskercompleted' element={<TaskerCompletedWork />}></Route>
-        <Route path='/taskerincompleted' element={<TaskerInCompletedWork />}></Route>
+       
+        <Route path="/BeaTasker" element={
+          <ProtectedRoute element={<BeaTasker />
+          
+          }/>}>
+
+          </Route>
+        <Route path="/Confirmation" element={
+          <ProtectedRoute element={<ConfirmationPage />
+
+          }/>}>
+            
+          </Route>
+        <Route path="/searchedresults" element={
+          <ProtectedRoute element={
+          <Searchresults />
+      }/>}>
+            
+
+
+      </Route>
+        <Route path='/bookingform' element={
+          <ProtectedRoute element={
+          <BookingForm />
+      }/>}>
+            
+
+
+      </Route>
+        <Route path='/userprofile' element={
+        <ProtectedRoute element={
+        <UserProfile />
+      }/>}>
+            
+
+
+      </Route>
+        <Route path='/taskerprofile' element={
+        <ProtectedRoute element={
+        <TaskerProfile />
+      }/>}>
+            
+
+
+      </Route>
+        <Route path='/usercancel' element={
+        <ProtectedRoute element={
+        <UserCancel />
+      }/>}>
+            
+
+
+      </Route>
+        <Route path='/taskercancel' element={
+        <ProtectedRoute element={
+        <TaskerCancel />
+      }/>}>
+            
+
+
+      </Route>
+        <Route path='/couponbooking' element={
+        <ProtectedRoute element={
+        <CouponBooking />
+      }/>}>
+            
+
+
+      </Route>
+        <Route path='/userreviewform' element={
+        <ProtectedRoute element={
+        <UserReviewForm />
+      }/>}>
+            
+
+
+      </Route>
+        <Route path='/taskerincompreviewform' element={
+        <ProtectedRoute element={
+        <TaskerIncompReasonForm />
+      }/>}>
+            
+
+
+      </Route>
+        <Route path='/userincompreviewform' element={
+        <ProtectedRoute element={
+        <UserIncompReasonForm />
+      }/>}>
+            
+
+
+      </Route>
+        <Route path='/discountcoupon' element={
+        <ProtectedRoute element={
+        <DiscountCoupon />
+      }/>}>
+            
+
+
+      </Route>
+        <Route path='/userpending' element={
+        <ProtectedRoute element={
+        <Pendingwork />
+      }/>}>
+            
+
+
+      </Route>
+        <Route path='/usercompleted' element={
+        <ProtectedRoute element={
+        <UserCompletedwork />
+      }/>}>
+            
+
+
+      </Route>
+        <Route path='/userincompleted' element={
+        <ProtectedRoute element={
+        <UserInCompletedwork />
+      }/>}>
+            
+
+
+      </Route>
+        <Route path='/incomingrequest' element={
+        <ProtectedRoute element={
+        <IncomingRequest />
+      }/>}>
+            
+
+
+      </Route>
+        <Route path='/taskerpending' element={
+        <ProtectedRoute element={
+        <TaskerPendingWork />
+      }/>}>
+            
+
+
+      </Route>
+        <Route path='/taskercompleted' element={
+        <ProtectedRoute element={
+        <TaskerCompletedWork />
+      }/>}>
+            
+
+
+      </Route>
+        <Route path='/taskerincompleted' element={
+        <ProtectedRoute element={
+        <TaskerInCompletedWork />
+      }/>}>
+            
+
+
+      </Route>
         </Routes>
     
     </BrowserRouter>

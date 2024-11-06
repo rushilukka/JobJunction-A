@@ -57,33 +57,8 @@ async function handleLogin(email, password) {
 
 
 
-function Userhome() {
-  const [token, setToken] = useState(null);
-  const [decodedToken, setDecodedToken] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-      const login = async () => {
-          try {
-              setLoading(true);
-              const token = await handleLogin("harshsoni9684@gmail.com", "password");
-              setToken(token);
-              const decoded = jwtDecode(token);
-              setDecodedToken(decoded); // Store decoded token data in state
-          } catch (error) {
-              setError(error);
-          } finally {
-              setLoading(false);
-          }
-      };
-
-      login();
-  }, []);
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
-
+function Home() {
+  
   // const [key, setKey] = useState('');
   // const [tasks, setTasks] = useState([]);
   // const [filteredTasks, setFilteredTasks] = useState([]);
@@ -116,7 +91,7 @@ function Userhome() {
           >
           </Nav>
          
-           <Link to='/Userhome' className='text-decoration-none'>
+           <Link to='/Entry' className='text-decoration-none'>
          
                <Button variant="btn btn-info btn-lg" className="mx-4">SignUp/Login</Button>
             </Link>
@@ -274,4 +249,4 @@ professional and did a fantastic job.</p>
   );
 }
 
-export default Userhome;
+export default Home;
