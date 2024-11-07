@@ -9,8 +9,11 @@ const cookies = new Cookies();
 
 
 function BookingForm() {
-  const token  = cookies.get('access_token_worker');
+  const token  = cookies.get('access_token');
   const token_decode = jwtDecode(token);
+  const jwtToken = localStorage.getItem("jwtToken");
+
+  
 
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -31,6 +34,8 @@ function BookingForm() {
 
   const location = useLocation();
   const { taskName, taskPrice } = location.state;
+
+
   const [userId, setUserId] = useState(null);
   const [username, setUserName] = useState(null);
   const [userphone, setUserPhone] = useState(null);
@@ -55,10 +60,11 @@ function BookingForm() {
       address: formData.address,
       area: formData.area,
       work_type: taskName,
-      slot: formData.slot,
-      date: formData.date,
+      time_slot: formData.slot,
+      user_date: formData.date,
       price: taskPrice,
-      userId: token_decode.userId,
+      user_id: token_decode.userId,
+      // user_id: "14",
       user_name: formData.user_name,
       email: formData.email,
       user_phone: formData.user_phone,
@@ -70,7 +76,9 @@ function BookingForm() {
       const response = await fetch('https://newjobjunction.onrender.com/services/book-service', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          // 'Authorization': `Bearer ${token}`, // Replace with your actual token
+          "Authorization": `Bearer ${jwtToken}`
         },
         body: JSON.stringify(requestBody)
       });
@@ -78,6 +86,7 @@ function BookingForm() {
       const data = await response.json();
       if (response.ok) {
         console.log(data); // Log the response to the console
+        navigate('/Confirmation');
         navigate('/Confirmation', { state: { responseData: data } });
       } else if (response.status === 405) {
         setAlertMessage(data.message);
@@ -106,7 +115,7 @@ function BookingForm() {
   const maxDate = new Date(today);
   const minDate = new Date(today);
   minDate.setDate(today.getDate() + 1);
-  maxDate.setDate(today.getDate() + 4);
+  maxDate.setDate(today.getDate() + 5);
 
   const formattedToday = minDate.toISOString().split('T')[0];
   const formattedMaxDate = maxDate.toISOString().split('T')[0];
@@ -119,6 +128,9 @@ function BookingForm() {
       
       <form onSubmit={handleSubmit} className="bg-light p-4 rounded" style={{ width: '100vh', boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)' }}>
         
+        {/* {token_decode.userId} */}
+      
+
         {/* User Name Field */}
         <div className="mb-3">
           <label htmlFor="user_name" className="form-label">User Name</label>
@@ -162,10 +174,19 @@ function BookingForm() {
         </div>
 
         {/* Date Field */}
-        <div className="mb-3">
-          <label htmlFor="date" className="form-label">Date</label>
-          <input type="date" className="form-control" name="date" onChange={handleChange} value={formData.date} required min={formattedToday} max={formattedMaxDate} />
-        </div>
+          <div className="mb-3">
+        <label htmlFor="date" className="form-label">Date</label>
+        <input
+          type="date"
+          className="form-control"
+          name="date"
+          onChange={handleChange}
+          value={formData.date}
+          required
+          min={formattedToday}
+          max={formattedMaxDate}
+        />
+      </div>
 
         {/* Address Field */}
         <div className="mb-3">

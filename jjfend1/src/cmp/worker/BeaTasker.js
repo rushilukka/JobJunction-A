@@ -115,8 +115,6 @@ const BeaTasker = () => {
         setIsSignup(false);
         navigate('/BeaTasker');
       } else if (response.status === 200) {
-       
-        
         cookies.set('access_token_worker', data.token, { path: '/' });
         navigate('/taskerprofile');
       }

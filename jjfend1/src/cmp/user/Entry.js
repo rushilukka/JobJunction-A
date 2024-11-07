@@ -68,6 +68,7 @@ const Entry = () => {
           setIsSignup(false);
           navigate('/Entry');
         } else if(response.status === 200){
+          localStorage.setItem("jwtToken", data.token);
           cookies.set('access_token', data.token, { path: '/' });
           navigate('/Userhome');
         }   
