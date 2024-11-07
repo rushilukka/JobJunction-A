@@ -6,7 +6,7 @@ import BeaTasker from './cmp/worker/BeaTasker'
 import Userhome from './cmp/user/Userhome';
 import ConfirmationPage from './cmp/ConfirmationPage';
 import Searchresults from './cmp/searchresult';
-import BookingForm from './cmp/BookingForm';
+import BookingForm from './cmp/user/BookingForm';
 import UserProfile from './cmp/user/userProfile';
 import TaskerProfile from './cmp/worker/taskerProfile';
 import UserCancel from './cmp/user/usercancel';
@@ -19,7 +19,7 @@ import DiscountCoupon from './cmp/DiscountCoupon';
 import Pendingwork from './cmp/pendingwork';
 import UserCompletedwork from './cmp/completedwork';
 import UserInCompletedwork from './cmp/user/UserIncompleted';
-import IncomingRequest from './cmp/incomingrequest';
+import IncomingRequest from './cmp/worker/incomingrequest';
 import TaskerPendingWork from './cmp/worker/taskerpendingwork';
 import TaskerCompletedWork from './cmp/worker/TaskerCompletedwork';
 import TaskerInCompletedWork from './cmp/worker/TaskerIncompleted';

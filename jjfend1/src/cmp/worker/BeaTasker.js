@@ -172,9 +172,9 @@ const BeaTasker = () => {
                 <option value="">Select One</option>
           
           {/* Assembly */}
-          <option value="General Furniture Assembly">General Furniture Assembly</option>
+          <option value="painting">painting</option>
           {/* Mounting */}
-          <option value="General Mounting">General Mounting</option>
+          <option value="carpentry">carpentry</option>
            
           </select>
                 

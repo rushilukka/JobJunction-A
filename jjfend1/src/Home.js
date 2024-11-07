@@ -101,7 +101,7 @@ function Home() {
           <div className="card" style={{ width: '100%', height: '100%' }}>
             <img src={project1} className="card-img-top" alt="Card 1" />
             <div className="card-body">
-              <h5 className="card-title">Furniture Assembly</h5>
+              <h5 className="card-title">Painting</h5>
               <p className="card-text">Prices starting at RS. 250</p>
               <Link to="/Entry" className="btn btn-primary">Book Now</Link>
             </div>
@@ -113,7 +113,7 @@ function Home() {
           <div className="card" style={{ width: '100%', height: '100%' }}>
             <img src={project2} className="card-img-top" alt="Card 2" />
             <div className="card-body">
-              <h5 className="card-title">Mount Art or Shelves</h5>
+              <h5 className="card-title">Carpentry</h5>
               <p className="card-text">Prices starting at RS. 700</p>
               <Link to="/Entry" className="btn btn-primary">Book Now</Link>
             </div>

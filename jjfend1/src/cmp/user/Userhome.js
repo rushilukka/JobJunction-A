@@ -94,9 +94,9 @@ return (
           <div className="card" style={{ width: '100%', height: '100%' }}>
             <img src={project1} className="card-img-top" alt="Card 1" />
             <div className="card-body">
-              <h5 className="card-title">General Furniture Assembly</h5>
+              <h5 className="card-title">Painting</h5>
               <p className="card-text">Prices starting at RS. 250</p>
-              <Button className='btn btn-primary'  onClick={() => navigate('/bookingform', { state: {taskName :'General Furniture Assembly', taskPrice :'250'  } })}>Book Now</Button>
+              <Button className='btn btn-primary'  onClick={() => navigate('/bookingform', { state: {taskName :'painting', taskPrice :'250'  } })}>Book Now</Button>
             </div>
           </div>
         </div>
@@ -106,9 +106,9 @@ return (
           <div className="card" style={{ width: '100%', height: '100%' }}>
             <img src={project2} className="card-img-top" alt="Card 2" />
             <div className="card-body">
-              <h5 className="card-title">Mount Shelves</h5>
-              <p className="card-text">Prices starting at RS. 200</p>
-              <Button className='btn btn-primary'  onClick={() => navigate('/bookingform', { state: {taskName :'Mount Shelves', taskPrice :'200'  } })}>Book Now</Button>
+              <h5 className="card-title">Carpentry</h5>
+              <p className="card-text">Prices starting at RS. 700</p>
+              <Button className='btn btn-primary'  onClick={() => navigate('/bookingform', { state: {taskName :'carpentry', taskPrice :'200'  } })}>Book Now</Button>
             </div>
           </div>
         </div>

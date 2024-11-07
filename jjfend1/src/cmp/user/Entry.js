@@ -148,24 +148,7 @@ const Entry = () => {
                       <option value="Railnagar">Railnagar </option>
                       <option value="Bhagvatipara">Bhagvatipara</option>
                       <option value="Morbi Road">Morbi Road </option>
-                      <option value="IMA">IMA </option>
-                      <option value="Kabirvan">Kabirvan </option>
-                      <option value="Ram Park">Ram Park </option>
-                      <option value="Redcross Sadar">Redcross Sadar </option>
-                      <option value="Redcross Ramnathpara">Redcross Ramnathpara</option>
-                      <option value="Nana Mauva">Nana Mauva</option>
-                      <option value="Aambedkarnagar">Aambedkarnagar </option>
-                      <option value="Vijayplot">Vijayplot </option>
-                      <option value="Nandanvan">Nandanvan </option>
-                      <option value="Mavdi">Mavdi </option>
-                      <option value="Narayannagar">Narayannagar </option>
-                      <option value="AHMP">AHMP </option>
-                      <option value="Champaknagar">Champaknagar </option>
-                      <option value="Hudko">Hudko </option>
-                      <option value="Pranami Chowk">Pranami Chowk </option>
-                      <option value="New Raghuvir">New Raghuvir </option>
-                      <option value="Kothariya">Kothariya </option>
-                    </select>
+                       </select>
                   </div>
                 </div>
                 <div className="mb-3">

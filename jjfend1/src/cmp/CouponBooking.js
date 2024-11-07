@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Loader from './Loader';
+import Loader from './user/Loader';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 

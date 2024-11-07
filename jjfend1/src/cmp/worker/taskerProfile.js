@@ -7,7 +7,8 @@ import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import img1 from '../../images/img1.jpeg'
+import img1 from '../../images/img1.jpeg';
+import img1_QR from '../../images/img1_QR.jpg'
 import logo from '../../logo.jpeg';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
@@ -151,14 +152,7 @@ const TaskerProfile = () => {
               className="d-inline-block align-top"
             />{' '}
             JobJunction
-            <pre>         </pre>
-             <ul>
-        {Object.entries(token).map(([key, value]) => (
-          <li key={key}>
-            <strong>{key}:</strong> {value.toString()}
-          </li>
-        ))}
-      </ul>
+          
             </Link>
           </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
@@ -180,99 +174,22 @@ const TaskerProfile = () => {
     <div  className="user-profile-form bg-dark text-light rounded text-center col-7 ">
      
      <div className="row mb-3">
-     <div className="col-md-8 p-3">
-      <Form >
-    
-          <h2>Tasker Profile</h2>
+     <div className="col-md-6 p-5">
      
-        <Form.Group controlId="formName">
-          <Form.Label className="mb-0">Name</Form.Label>
-          <Form.Control
-            type="text"
-            name="name"
-            value={profileData.name}
-            onChange={handleInputChange}
-            disabled={!isEditing}
-            />
-        </Form.Group>
-
-        <Form.Group controlId="formEmail">
-          <Form.Label>Email Address</Form.Label>
-          <Form.Control
-            type="email"
-            name="email"
-            value={profileData.email}
-            onChange={handleInputChange}
-            disabled
-            />
-        </Form.Group>
-
-        <Form.Group controlId="formArea">
-            <Form.Label>Area</Form.Label>
-            <select className="form-control form-select" id="area" placeholder={taskerarea} name='area' onChange={handleInputChange} value={profileData.area} disabled={!isEditing}>
-            <option value={taskerarea}>Select One</option>
-                  <option value="Shyamnagar">Shyamnagar </option>
-                  <option value="Railnagar">Railnagar </option>
-                  <option value="Bhagvatipara">Bhagvatipara</option>
-                  <option value="Morbi Road">Morbi Road </option>
-                 </select>
-          </Form.Group>
-
-        <Form.Group controlId="formPhoneNumber">
-          <Form.Label>Phone Number</Form.Label>
-          <Form.Control
-            type="number"
-            name="phone"
-            value={profileData.phone}
-            onChange={handleInputChange}
-            disabled={!isEditing}
-            />
-        </Form.Group>
-
-        <Form.Group controlId="formTask">
-            <Form.Label>Task</Form.Label>
-            <select className="form-control form-select" id="task" placeholder={taskertask} name='area' onChange={handleInputChange} value={profileData.area} disabled={!isEditing}>
-            <option value={taskertask}>Select One</option>
-                  {/* Assembly */}
-          <option value="General Furniture Assembly">General Furniture Assembly</option>
-           
-          {/* Mounting */}
-          <option value="General Mounting">General Mounting</option>
-        </select>
-          </Form.Group>
-
-
-        {isEditing ? (
-            <>
-            <Form.Group controlId="formPassword">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type="password"
-                name="password"
-                value={profileData.password}
-                onChange={handleInputChange}
-              />
-            </Form.Group>
-            <Button variant="primary" onClick={handleSaveClick} className="m-3 ">
-              Save Changes
-            </Button>
-            <Button variant="secondary" onClick={handleCancelClick} className="m-3 ">
-              Cancel
-            </Button>
-          </>
-        ) : (
-            <Button variant="info" onClick={handleEditClick} className="m-3 ">
-            Edit Profile
-          </Button>
-        )}
-      </Form>
+          <h2>Tasker Id
+            <div className="mx-5 mt-3">
+              {token.workerId}       
+             </div>
+             </h2>
         </div>   
-        <div className="col-md-4 p-3">
+
+        {/* _________________________________________________ */}
+        <div className="col-md-6 p-5">
          <h2 >Pay Here</h2>
       <img className="m-3  img-fluid img-thumbnail " //className='d-flex justify-content-end'
-          src={img1} // Replace with actual image URL
+          src={img1_QR} // Replace with actual image URL
           alt="Profile" 
-          style={{ height: '200px' }}
+          style={{ height: '300px',width:"300px" }}
           />
     </div> 
       </div>
