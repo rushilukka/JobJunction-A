@@ -1,51 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { Col, Row, Container, Button, Alert } from 'react-bootstrap';
 import { useNavigate, useLocation } from 'react-router-dom';
+import {jwtDecode} from 'jwt-decode';
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 const TaskerPendingWork = () => {
+    const token = cookies.get('access_token_worker');
+    const token_decode = jwtDecode(token);
+    const workerId = token_decode.taskerId;
+  
     const [pendingTasks, setPendingTasks] = useState([]);
     const [error, setError] = useState(null);
     const location = useLocation();
-    const taskerId = location.state;
     const navigate = useNavigate();
-
-    const completeTask = async (task) => {
-        const reqbody = {
-            taskerId,
-            userphone: task.userphone,
-            username: task.username,
-            useraddress: task.useraddress,
-            taskname: task.taskname,
-            taskprice: task.taskprice,
-            taskslot: task.taskslot,
-            taskdate: task.taskdate,
-            userId: task.userId,
-        };
-        try {
-            const response = await fetch('http://localhost:4000/taskerconfirm', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(reqbody),
-            });
-            if (!response.ok) {
-                throw new Error('Failed to mark task as completed');
-            }
-            fetchPendingTasks();
-        } catch (error) {
-            console.error('Error completing task:', error);
-        }
-    };
 
     const fetchPendingTasks = async () => {
         try {
-            const response = await fetch('http://localhost:4000/taskerpending', {
-                method: 'POST',
+            const response = await fetch('https://newjobjunction.onrender.com/workers/pending-requests', {
+                method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ taskerId }),
+                    'Authorization': `Bearer ${token}`
+                }
             });
             if (!response.ok) {
                 throw new Error('Failed to fetch data');
@@ -58,14 +36,40 @@ const TaskerPendingWork = () => {
         }
     };
 
+    const markTaskCompleted = async (requestId) => {
+        try {
+            const response = await fetch('https://newjobjunction.onrender.com/workers/mark-completed', {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ workerId, requestId })
+            });
+            if (!response.ok) {
+                throw new Error('Failed to mark task as completed');
+            }
+            fetchPendingTasks(); // Refresh pending tasks after marking as completed
+        } catch (error) {
+            console.error('Error completing task:', error);
+            setError('Failed to complete the task. Please try again.');
+        }
+    };
+
+    const completeTask = (task) => {
+        // Get the requestId for the task and call markTaskCompleted
+        const requestId = task.requestId;
+        markTaskCompleted(requestId);
+    };
+
     useEffect(() => {
         fetchPendingTasks();
         const intervalId = setInterval(fetchPendingTasks, 10000); // Reload every 10 seconds
         return () => clearInterval(intervalId);
-    }, [taskerId]);
+    }, []);
 
     return (
-        <Container style={{  padding: '2rem' }}>
+        <Container style={{ padding: '2rem' }}>
           <h1 className="display-3 text-white py-4">Pending Work</h1>
             <Button className="btn btn-dark border-rounded mb-3" onClick={() => { navigate('/taskerprofile') }}>
                 Back

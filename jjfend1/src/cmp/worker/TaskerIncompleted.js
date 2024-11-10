@@ -1,31 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import { Col, Row, Container, Button, Alert } from 'react-bootstrap';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 const TaskerInCompletedWork = () => {
     const [incompletedTasks, setInCompletedTasks] = useState([]);
     const location = useLocation();
     const taskerId = location.state;
     const navigate = useNavigate();
-
+    const token = cookies.get('access_token_worker');
+    const token_decode = jwtDecode(token);
+    const taskerId1 = token_decode.taskerId;
+  
     useEffect(() => {
         const fetchInCompletedTasks = async () => {
             try {
-                const response = await fetch('http://localhost:4000/taskerincompleted', {
-                    method: 'POST',
+                const response = await fetch('https://newjobjunction.onrender.com/workers/pending-requests', {
+                    method: 'GET',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                   
                     },
-                    body: JSON.stringify({ taskerId })
+                    // body: JSON.stringify({ taskerId }),
                 });
                 if (!response.ok) {
                     throw new Error('Failed to fetch data');
                 }
                 const data = await response.json();
-                setInCompletedTasks(data.taskerInCompletedTasks || []);
+                setInCompletedTasks(data.taskerPendingTasks || []);
             } catch (error) {
-                console.error('Error fetching completed tasks:', error);
+                console.error('Error fetching pending tasks:', error);
+                // setError('Failed to fetch pending tasks. Please try again.');
             }
+
         };
 
         fetchInCompletedTasks();

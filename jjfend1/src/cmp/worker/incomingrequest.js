@@ -41,14 +41,14 @@ const IncomingRequest = () => {
 
   const handleAccept = async (taskId) => {
     try {
-      const response = await fetch('https://newjobjunction.onrender.com/service-requests/accept', {
-        method: 'GET',
+      const response = await fetch(' https://newjobjunction.onrender.com/service-requests/accept', {
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
           
         },
-        // body: JSON.stringify({ requestId: taskId, confirm: "true" }),
+        body: JSON.stringify({ workerId:taskerId,requestId: taskId }),
       });
       if (!response.ok) {
         throw new Error('Failed to confirm task');
@@ -59,23 +59,7 @@ const IncomingRequest = () => {
     }
   };
 
-  const handleCancel = async (taskId) => {
-    try {
-      const response = await fetch('http://localhost:4000/give-confirm', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ requestId: taskId, confirm: "false" }),
-      });
-      if (!response.ok) {
-        throw new Error('Failed to cancel task');
-      }
-      navigate('/taskerprofile');
-    } catch (error) {
-      console.error('Error cancelling task:', error);
-    }
-  };
+  
 
   return (
     <div className="container-fluid text-white justify-content-md-center my-sm-5 py-4">
@@ -102,7 +86,8 @@ const IncomingRequest = () => {
               <p><strong>Payment Type:</strong> {task.payment_type}</p>
               <div className="d-flex justify-content-center mt-4">
                 <button className="btn btn-success me-2" onClick={() => handleAccept(task.request_id)}>Accept</button>
-                <button className="btn btn-danger" onClick={() => handleCancel(task.request_id)}>Cancel</button>
+                
+                
               </div>
             </div>
           </Col>
