@@ -11,14 +11,15 @@ import UserProfile from './cmp/user/userProfile';
 import TaskerProfile from './cmp/worker/taskerProfile';
 import UserCancel from './cmp/user/usercancel';
 import TaskerCancel from './cmp/worker/taskercancel';
-import CouponBooking from './cmp/CouponBooking';
+// import CouponBooking from './cmp/CouponBooking';
 import UserReviewForm from './cmp/user/userReview';
 import TaskerIncompReasonForm from './cmp/worker/TaskerIncompletedreason'
-import UserIncompReasonForm from './cmp/user/userIncompletedreason'
-import DiscountCoupon from './cmp/DiscountCoupon';
-import Pendingwork from './cmp/pendingwork';
-import UserCompletedwork from './cmp/completedwork';
-import UserInCompletedwork from './cmp/user/UserIncompleted';
+// import UserIncompReasonForm from './cmp/user/userIncompletedreason'
+// import DiscountCoupon from './cmp/DiscountCoupon';
+
+import Pendingwork from './cmp/user/pendingwork';
+import UserCompletedwork from './cmp/user/completedwork';
+ 
 import IncomingRequest from './cmp/worker/incomingrequest';
 import TaskerPendingWork from './cmp/worker/taskerpendingwork';
 import TaskerCompletedWork from './cmp/worker/TaskerCompletedwork';
@@ -103,14 +104,7 @@ import ProtectedRoute from './Authencation/1ProtectedRoute';
 
 
       </Route>
-        <Route path='/couponbooking' element={
-        <ProtectedRoute element={
-        <CouponBooking />
-      }/>}>
-            
-
-
-      </Route>
+       
         <Route path='/userreviewform' element={
         <ProtectedRoute element={
         <UserReviewForm />
@@ -127,23 +121,8 @@ import ProtectedRoute from './Authencation/1ProtectedRoute';
 
 
       </Route>
-        <Route path='/userincompreviewform' element={
-        <ProtectedRoute element={
-        <UserIncompReasonForm />
-      }/>}>
-            
-
-
-      </Route>
-        <Route path='/discountcoupon' element={
-        <ProtectedRoute element={
-        <DiscountCoupon />
-      }/>}>
-            
-
-
-      </Route>
-        <Route path='/userpending' element={
+       
+         <Route path='/userpending' element={
         <ProtectedRoute element={
         <Pendingwork />
       }/>}>
@@ -159,14 +138,7 @@ import ProtectedRoute from './Authencation/1ProtectedRoute';
 
 
       </Route>
-        <Route path='/userincompleted' element={
-        <ProtectedRoute element={
-        <UserInCompletedwork />
-      }/>}>
-            
-
-
-      </Route>
+       
         <Route path='/incomingrequest' element={
         <ProtectedRouteWorker element={
         <IncomingRequest />

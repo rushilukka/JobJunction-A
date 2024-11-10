@@ -1,23 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import { Col, Row, Card, Container, Button, Alert } from 'react-bootstrap';
 import { useNavigate, useLocation } from 'react-router-dom';
+import Cookies from 'universal-cookie';
+import { jwtDecode } from 'jwt-decode';
+const cookies = new Cookies();
 
 const UserCompletedwork = () => {
   const [completedTasks, setCompletedTasks] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
-  const userId = location.state;
+  const token = cookies.get('access_token');
+  const token_decode = jwtDecode(token);
+  const userId = token_decode.userId;
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     const fetchCompletedTasks = async () => {
       try {
-        const response = await fetch('http://localhost:4000/usercompleted', {
-          method: 'POST',
+        const response = await fetch('https://newjobjunction.onrender.com/services/compeleted-requests', {
+          method: 'GET',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
           },
-          body: JSON.stringify({ userId })
         });
+
+        if (response.status === 404) {
+          setErrorMessage('Sorry, there are no completed tasks available.');
+          return;
+        }
 
         if (!response.ok) {
           throw new Error('Failed to fetch data');
@@ -26,12 +37,24 @@ const UserCompletedwork = () => {
         const data = await response.json();
 
         if (data && data.userCompletedTasks) {
-          setCompletedTasks(data.userCompletedTasks);
+          const transformedTasks = data.userCompletedTasks.map(request => ({
+            taskname: request.work_type,
+            taskdate: request.request_date,
+            taskslot: request.time_slot,
+            taskername: request.user_name,
+            taskerphone: request.user_phone,
+            taskprice: request.payment_type,
+            review: request.review, // Assuming 'review' holds if task is reviewed
+            taskerId: request.user_id,
+          }));
+
+          setCompletedTasks(transformedTasks);
         } else {
           setCompletedTasks([]);
         }
       } catch (error) {
         console.error('Error fetching completed tasks:', error);
+        setErrorMessage('An error occurred while fetching completed tasks.');
       }
     };
 
@@ -45,13 +68,13 @@ const UserCompletedwork = () => {
         Back
       </Button>
 
-      {completedTasks.length === 0 && (
+      {errorMessage && (
         <Alert variant="info" className="text-center text-dark mt-3">
-          <h3>Sorry, there are no completed tasks available.</h3>
+          <h3>{errorMessage}</h3>
         </Alert>
       )}
 
-      {completedTasks.map((task, index) => (
+      {completedTasks.length > 0 && completedTasks.map((task, index) => (
         index % 4 === 0 && (
           <Row key={index} className='mb-3'>
             {completedTasks.slice(index, index + 4).map((task, subIndex) => (
@@ -68,7 +91,6 @@ const UserCompletedwork = () => {
                       className={`btn ${task.review === 'YES' ? 'btn-secondary' : 'btn-primary'}`}
                       onClick={() => {
                         if (task.review === 'NO') {
-                          console.log(task.review);
                           navigate("/userreviewform", { state: task });
                         }
                       }}

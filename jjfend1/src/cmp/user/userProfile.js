@@ -139,9 +139,7 @@ const UserProfile = () => {
             </div>
              </h2>
 
-      <Button className='btn btn-dark border-rounded' onClick={()=>{ Navigate('/discountcoupon',{ state:userId})}}>
-      <h1 className="display-3 text-white py-4">Discount Coupons</h1>
-      </Button>
+      
       <div className="w-100 border-top my-3"></div>
       <Button className='btn btn-dark border-rounded' onClick={()=>{ Navigate('/userpending',{ state:userId})}}>
       <h1 className="display-3 text-white py-4">Pending Work</h1>
@@ -150,11 +148,8 @@ const UserProfile = () => {
       <Button className='btn btn-dark border-rounded' onClick={()=>{ Navigate('/usercompleted',{ state:userId})}}>
       <h1 className="display-3 text-white py-4">Completed Work</h1>
       </Button>
-      <div className="w-100 border-top my-3"></div>
-      <Button className='btn btn-dark border-rounded' onClick={()=>{ Navigate('/userincompleted',{ state:userId})}}>
-      <h1 className="display-3 text-white py-4">Incompleted Work</h1>
-      </Button>
-    </div>
+      
+      </div>
 
     </>
 

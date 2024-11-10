@@ -1,22 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { Col, Row, Card, Container, Button, Alert } from 'react-bootstrap';
 import { useNavigate, useLocation } from 'react-router-dom';
+import Cookies from 'universal-cookie';
+import { jwtDecode } from 'jwt-decode';
+const cookies = new Cookies();
 
 const Pendingwork = () => {
+  const token = cookies.get('access_token');
+  const token_decode = jwtDecode(token);
+  const userId = token_decode.userId;
+
   const [pendingTasks, setPendingTasks] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
-  const userId = location.state;
 
   useEffect(() => {
     const fetchPendingTasks = async () => {
       try {
-        const response = await fetch('http://localhost:4000/userpending', {
-          method: 'POST',
+        const response = await fetch('https://newjobjunction.onrender.com/services/pendingRequests', {
+          method: 'GET',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
           },
-          body: JSON.stringify({ userId })
         });
 
         if (!response.ok) {
@@ -25,8 +31,18 @@ const Pendingwork = () => {
 
         const data = await response.json();
 
-        if (data && data.userPendingTasks) {
-          setPendingTasks(data.userPendingTasks);
+        if (data && data.acceptedRequests) {
+          const transformedTasks = data.acceptedRequests.map(request => ({
+            taskname: request.work_type,
+            taskdate: request.request_date,
+            taskslot: request.time_slot,
+            taskername: request.user_name,
+            taskerphone: request.user_phone,
+            taskprice: request.payment_type,
+            taskerId: request.user_id,
+          }));
+
+          setPendingTasks(transformedTasks);
         } else {
           setPendingTasks([]);
         }
@@ -64,12 +80,6 @@ const Pendingwork = () => {
                     <p className="card-text">Tasker Name: {task.taskername}</p>
                     <p className="card-text">Tasker Phone: {task.taskerphone}</p>
                     <p className="card-text">Task Price: {task.taskprice}</p>
-                    <Button
-                      className="btn btn-primary"
-                      onClick={() => navigate("/usercancel", { state: { taskname: task.taskname, taskdate: task.taskdate, taskslot: task.taskslot, userId, taskerId: task.taskerId, taskprice: task.taskprice } })}
-                    >
-                      Cancel
-                    </Button>
                   </div>
                 </Card>
               </Col>

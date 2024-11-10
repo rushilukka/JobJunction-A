@@ -16,7 +16,7 @@ const BeaTasker = () => {
     phone: '',
     area: '',
     worktype: '',
-    city: 'Rajkot'
+    city: 'rajkot'
   })
   const toggleForm = () => {
     setIsSignup(!isSignup);
